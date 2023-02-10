@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employee")
@@ -81,6 +82,19 @@ public class Employee {
 
     public void setCityId(int cityId) {
         this.cityId = cityId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        Employee employee = (Employee) o;
+        return getId() == employee.getId() && getAge() == employee.getAge() && getCityId() == employee.getCityId() && Objects.equals(getFirstName(), employee.getFirstName()) && Objects.equals(getLastName(), employee.getLastName()) && Objects.equals(getGender(), employee.getGender());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName(), getGender(), getAge(), getCityId());
     }
 
     @Override
