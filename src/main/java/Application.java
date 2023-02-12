@@ -1,28 +1,34 @@
+import dao.CityDAO;
+import dao.CityDAOImpl;
 import dao.EmployeeDAO;
 import dao.EmployeeDAOImpl;
+import model.City;
 import model.Employee;
 
 public class Application {
 
     public static void main(String[] args)  {
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        CityDAO cityDAO = new CityDAOImpl();
 
-        Employee employee = new Employee("First Name", "Last Name", "male", 44, 2);
-        //Добавление в БД созданного employee
+        City city1 = new City("FIRST CITY");
+        cityDAO.create(city1);
+
+        //При запуске приложения обе таблицы - employee и city - пустые
+        //И, добавляя город, мы не указываем его id - он устанавливается БД самостоятельно
+        //Значит, мы можем получить его id, чтобы этот город (как объект) - указать как поле класса Employee
+
+        City cityForEmployee = cityDAO.getById(1);
+
+        //Создаем объект employee
+        Employee employee = new Employee("Sven", "Svensson", "male", 35);
+        //Заполняем поле city в объекте employee
+        employee.setCity(cityForEmployee);
+
+        //Добавим employee в БД
         employeeDAO.create(employee);
 
-        //Поиск в БД employee
-        employeeDAO.getById(13);
-
-        //Просмотр всех имеющихся в БД employee
-        System.out.println(employeeDAO.getAllEmployees());
-
-        //Меняем одно поле в объекте employee
-        employee.setGender("female");
-        //Обновляем сведения по этому employee в БД
-        employeeDAO.updateEmployee(employee);
-
-        //Удаляем employee
-        employeeDAO.deleteEmployee(employee);
+        //Удалим cityForEmployee
+        cityDAO.deleteCity(cityForEmployee);
     }
 }
