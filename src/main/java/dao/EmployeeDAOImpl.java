@@ -12,8 +12,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void create(Employee employee) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.persist(employee);
-            session.getTransaction().commit();
+            session.save(employee);
+            transaction.commit();
         }
     }
 
@@ -38,7 +38,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.update(employee);
-            session.getTransaction().commit();
+            transaction.commit();
         }
     }
 
@@ -48,7 +48,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(employee);
-            session.getTransaction().commit();
+            transaction.commit();
         }
     }
 }
